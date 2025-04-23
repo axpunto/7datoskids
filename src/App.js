@@ -1,42 +1,45 @@
 import './App.css';
 import { useState } from "react";
-import backgroundImage from './media/7DK_web_bg2.png';
-import srcBee1 from './media/7dk_abeja.png';
-import srcCatarina2 from './media/abeja_7DK2.png';
+import dayShiftBg1 from './media/7DK_web_bg2.png';
+import beeDayShift from './media/7dk_abeja.png';
+import catarinaDayShift from './media/abeja_7DK2.png';
+import nightShiftBg from './media/7dkNoche.png';
+import starNightShift from './media/7dk_star.png';
+import moonNightShift from './media/7dk_Moon.png';
 import srcLogo from './media/Logo7DatosLids100x100.png';
 import butterFly from './media/Mariposa7DK_1.png';
+import dayShiftBg2 from './media/7dkDia.png';
 import { motion } from 'framer-motion';
 
 export default function App() {
+	const isDayLight = () => {
+		const hour = new Date().getHours();
+		const dayShift = hour >= 6 && hour < 18 ? true : false;
+		return dayShift
+	}
+	
 	const [hoveredItem, setHoveredItem] = useState(null);
 	const elements = [
 		{
 			id: "bee",
 			name: "Bee",
-			src: srcBee1,
-			style: "bottom-20 right-20 animate-floatRandomTwo",
+			src: isDayLight() ? beeDayShift : starNightShift,
+			style: "top-20 left-5 animate-floatRandomTwo",
 			width: "w-20 sm:w-32"
 		},
 		{
 			id: "catarina",
 			name: "Catarina",
-			src: srcCatarina2,
-			style: "top-20 right-10 animate-floatSlow",
+			src: isDayLight() ? catarinaDayShift : moonNightShift,
+			style: "top-20 right-7 animate-floatSlow",
 			width: "w-20 sm:w-40"
-		},
-		// {
-		// 	id: "butterfly",
-		// 	name: "ButterFly",
-		// 	src: butterFly,
-		// 	style: "bottom-30 left-20 animate-floatWiggle",
-		// 	width: "w-20 sm:w-40"
-		// },
+		}
 	];
 
 	return (
 		<div 
 			className="w-full h-screen bg-cover bg-center relative overflow-hidden" 
-			style={{ backgroundImage: `url(${backgroundImage})` }}>
+			style={{ backgroundImage: `url(${isDayLight() ? dayShiftBg1 : nightShiftBg})` }}>
 				<div className="flex items-center justify-center w-100">
 					<img src={srcLogo} alt="Logo 7 Datos Kids" className="absolute top-10 animate-floatWiggle w-40 sm:w-50" />
 				</div>
