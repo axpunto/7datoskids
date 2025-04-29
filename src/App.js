@@ -25,7 +25,7 @@ export default function App() {
 	const isDayLight = () => {
 		const hour = new Date().getHours();
 		const dayShift = hour >= 6 && hour < 18 ? true : false;
-		return dayShift
+		return !dayShift
 	}
 
 	const getNightElements = () => {
@@ -66,7 +66,7 @@ export default function App() {
 		<div 
 			className="w-full h-screen bg-cover bg-center relative overflow-hidden" 
 			style={{ backgroundImage: `url(${isDayLight() ? dayShiftBg2 : nightShiftBg})` }}>
-			<div className={`flex justify-around mt-8`}>
+			<div className={`flex justify-around mt-9`}>
 				{(isDayLight() ? getDaylightElements() : getNightElements()).map((el, i) => (
 				<motion.div
 					key={i}
@@ -77,11 +77,12 @@ export default function App() {
 					<div
 						style= {{
 							height: '150px', 
+							width: '150px', 
 							backgroundImage: `url(${el.src})`, 
 							backgroundRepeat: 'no-repeat', 
 							backgroundSize: 'contain'
 						}} 
-						className={`${el.animation} w-30 sm:w-40`}>
+						className={`${el.animation}`}>
 					</div>
 				</motion.div>
 				))}
