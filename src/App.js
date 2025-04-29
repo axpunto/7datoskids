@@ -25,7 +25,7 @@ export default function App() {
 	const isDayLight = () => {
 		const hour = new Date().getHours();
 		const dayShift = hour >= 6 && hour < 18 ? true : false;
-		return !dayShift
+		return dayShift
 	}
 
 	const getNightElements = () => {
@@ -76,8 +76,8 @@ export default function App() {
 					style={{ x: 0, y: 0 }}>
 					<div
 						style= {{
-							height: '150px', 
-							width: '150px', 
+							height: '120px', 
+							width: '120px', 
 							backgroundImage: `url(${el.src})`, 
 							backgroundRepeat: 'no-repeat', 
 							backgroundSize: 'contain'
