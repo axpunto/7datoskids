@@ -1,15 +1,25 @@
 import './App.css';
-import { useState } from "react";
+import { motion } from "motion/react";
+
+// day and nighth backgrounds
 import dayShiftBg1 from './media/7DK_web_bg2.png';
-import beeDayShift from './media/7dk_abeja.png';
-import catarinaDayShift from './media/abeja_7DK2.png';
+import dayShiftBg2 from './media/7dkDia.png';
 import nightShiftBg from './media/7dkNoche.png';
+
+// daylight elements
+import beeDayShift from './media/7dk_abeja.png';
+import butterFly from './media/Mariposa7DK_1.png';
+import catarinaDayShift from './media/abeja_7DK2.png';
+
+// night elements
 import starNightShift from './media/7dk_star.png';
 import moonNightShift from './media/7dk_Moon.png';
+import starMinecraft from './media/7dk_star_1.png'
+import starMuppets from './media/7dk_star_2.png'
+
+// logo
 import srcLogo from './media/Logo7DatosLids100x100.png';
-import butterFly from './media/Mariposa7DK_1.png';
-import dayShiftBg2 from './media/7dkDia.png';
-import { motion } from 'framer-motion';
+
 
 export default function App() {
 	const isDayLight = () => {
@@ -17,49 +27,65 @@ export default function App() {
 		const dayShift = hour >= 6 && hour < 18 ? true : false;
 		return dayShift
 	}
-	
-	const [hoveredItem, setHoveredItem] = useState(null);
-	const elements = [
-		{
-			id: "bee",
-			name: "Bee",
-			src: isDayLight() ? beeDayShift : starNightShift,
-			style: "top-20 left-5 animate-floatRandomTwo",
-			width: "w-20 sm:w-32"
-		},
-		{
-			id: "catarina",
-			name: "Catarina",
-			src: isDayLight() ? catarinaDayShift : moonNightShift,
-			style: "top-20 right-7 animate-floatSlow",
-			width: "w-20 sm:w-40"
-		}
-	];
+
+	const getNightElements = () => {
+		return ([
+			{
+				src: starNightShift,
+				animation: "animate-floatRandomTwo"
+			},
+			{
+				src: starMinecraft,
+				animation: "animate-bounceSlow"
+			},
+			{
+				src: starMuppets,
+				animation: "animate-floatRandom"
+			}
+		])
+	}
+
+	const getDaylightElements  = () => {
+		return ([
+			{
+				src: beeDayShift,
+				animation: "animate-floatSlow"
+			},
+			{
+				src: srcLogo,
+				animation: "animate-bounceSlow"
+			},
+			{
+				src: catarinaDayShift,
+				animation: "animate-floatRandom"
+			}
+		])
+	}
 
 	return (
 		<div 
 			className="w-full h-screen bg-cover bg-center relative overflow-hidden" 
-			style={{ backgroundImage: `url(${isDayLight() ? dayShiftBg1 : nightShiftBg})` }}>
-				<div className="flex items-center justify-center w-100">
-					<img src={srcLogo} alt="Logo 7 Datos Kids" className="absolute top-10 animate-floatWiggle w-40 sm:w-50" />
-				</div>
-
-			{elements.map((el) => (
+			style={{ backgroundImage: `url(${isDayLight() ? dayShiftBg2 : nightShiftBg})` }}>
+			<div className={`flex justify-around mt-8`}>
+				{(isDayLight() ? getDaylightElements() : getNightElements()).map((el, i) => (
 				<motion.div
+					key={i}
 					drag
-					key={el.id}
-					className={`absolute ${el.style} cursor-grab z-50`}
-					onMouseEnter={() => setHoveredItem(el.id)}
-					onMouseLeave={() => setHoveredItem(null)}
-				>
-					<img src={el.src} alt={el.name} className={el.width} />
-					{hoveredItem === el.id && (
-					<div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-yellow-200 text-black text-xs px-2 py-1 rounded shadow-lg z-10">
-						{el.name}
+					dragMomentum={false}
+					dragElastic={0}
+					style={{ x: 0, y: 0 }}>
+					<div
+						style= {{
+							height: '150px', 
+							backgroundImage: `url(${el.src})`, 
+							backgroundRepeat: 'no-repeat', 
+							backgroundSize: 'contain'
+						}} 
+						className={`${el.animation} w-30 sm:w-40`}>
 					</div>
-					)}
 				</motion.div>
-			))}
+				))}
+			</div>
 		</div>
 	);
 }
